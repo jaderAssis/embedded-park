@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<script src="../resources/js/default.js" />
+	
+	<title>
+		<ui:insert name="titulo">#{msg.app}</ui:insert>	
+	</title>
+
+	<h:outputStylesheet library="css" name="style.css" />
+	
+ 	<style type="text/css">
+
+ 		.ui-accordion-header a {
+			background: #F0F4F5 !important;
+			color: #504B4B !important;
+			padding-left: 2.2em !important;
+			border-top: 1px dashed #E4E4E4 !important;
+			border-bottom: 1px dashed #E4E4E4 !important;
+		}
+
+		.ui-dialog .ui-dialog-titlebar {
+			opacity: -0.4 !important;
+		}
+		
+		.cadeadoLogin {
+			background:url(../resources/images/cadeado.gif) no-repeat center center;
+			width: 150px !important;
+			height: 162px !important;
+			border: 0;
+		}
+ 	
+ 		.processando {
+			background:url(../resources/images/processando.gif) no-repeat center center;
+			width: 150px !important;
+			height: 162px !important;
+			border: 0;
+		}
+		
+ 	</style>
+	
+</h:head>
+
+<h:body>
+	<div id="container_pai">
+		
+		<h:form name="formCabecalho">
+			
+			<p:growl id="messages"/> 
+		
+			<div id="header">
+				<div id="logo">
+					<h:graphicImage library="images" name="logo-park.png" width="182" height="85" />
+				</div>
+			</div>		     	
+		</h:form>
+		
+		<div id="conteudo_mestre">
+			<h:form id="menu_tab">
+				
+				<h:panelGroup id="menu_tab" rendered="#{usuarioLogado.logado}">
+                    <ul class="menu">
+                         <li>
+                         	<h:commandLink value="#{msg.template_home}"  action="/administrar/inicio?faces-redirect=true" styleClass="nav" />
+                         </li>
+                         <li class="divider" />
+                
+                         <li>
+   	                         <h:commandLink value="Iniciar Locacao"  action="/locacao/iniciar?faces-redirect=true" styleClass="nav" />
+                         </li>
+                		 <li class="divider" />
+                		
+   	             		<li>
+	                         <h:commandLink value="#{msg.template_pagamento}"  action="/pagamento/realizar?faces-redirect=true" styleClass="nav" />
+                         </li>
+                         <li class="divider" />
+                		
+                         <li>
+							<h:commandLink value="Finalizar Locacao"  action="/locacao/finalizar?faces-redirect=true" styleClass="nav" />
+                         </li>
+                        <li class="divider" /> 
+	
+						<li>
+	                         <h:commandLink value="#{msg.template_mensalita}"  action="/mensalista/cadastro?faces-redirect=true" styleClass="nav" />
+                         </li>
+                         <li class="divider" />
+
+                         <li>
+	                         <h:commandLink value="#{msg.template_desenvolvedores}"  action="/desenvolvedores/contato?faces-redirect=true" styleClass="nav" />
+                         </li>
+                         <li class="divider" />
+                         
+                         <li>
+	                         <h:commandLink value="#{msg.template_sair}"  action="#{loginController.logout}" styleClass="nav" />
+                         </li>
+                    </ul>
+           		</h:panelGroup>
+					
+			</h:form>
+
+			<div class="navegacao_topo">
+				<h:outputText value="#{msg.template_data}: " />
+				
+				
+				<span class="current">
+					<h:outputText value="#{loginController.dataAtual}" >
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</span>
+			</div>
+			
+			<!-- coluna esquerda -->
+			<h:panelGrid styleClass="left_content" rendered="#{usuarioLogado.logado}">
+				
+				<div class="title_box" >Menu</div>
+					
+				<h:form id="formMenuLateral">
+					<div class="left_menu" >
+				
+						<p:accordionPanel>
+							<p:tab title="#{msg.template_administrar}" rendered="#{usuarioLogado.administrador}" >
+								<h:commandLink value="#{msg.template_administrar_texto}" action="/administrar/inicio?faces-redirect=true" 
+									styleClass="odd" />
+							</p:tab>
+								
+							<p:tab title="#{msg.template_gerenciar}" rendered="#{usuarioLogado.gerente}"  >
+								<h:commandLink value="#{msg.template_gerenciar_texto}" action="/gerenciar/inicio?faces-redirect=true" 
+									styleClass="even" />
+							</p:tab>
+							
+							<p:tab title="#{msg.template_ponto_eletronico}" rendered="#{usuarioLogado.administrador}">  
+								<h:commandLink value="#{msg.template_ponto_eletronico_texto}" action="/ponto-eletronico/cadastro?faces-redirect=true" 
+									styleClass="even" />
+							</p:tab>
+						</p:accordionPanel>			
+					</div>
+				</h:form>
+			</h:panelGrid>
+	
+			<!-- centro -->		
+			<div class="conteudo_interno">
+				<ui:insert name="corpo" />
+			</div>	
+			
+			
+			<!-- menu de pesquisa -->		
+			<h:panelGroup styleClass="right_content" style="margin-top: 5px;" rendered="#{usuarioLogado.logado}">
+				
+				<h:form id="formMenuPesquisa">
+					
+					<div class="title_box" >#{msg.template_vagas}</div>						
+					
+					<br />
+					<div class="vaga_detalhe">
+						
+						<h:outputText value="#{msg.template_vagasOcupadas}: " />
+						<h:outputText value="#{templateController.vaga.vagasOcupadas}" styleClass="vagas" />
+						
+						<span class="border_cart"></span>
+						<h:outputText value="#{msg.template_vagasDisponiveis}: " />
+						<h:outputText value="#{templateController.vaga.vagasDisponiveis}" styleClass="vagaDisponivel" />
+						
+						<span class="border_cart"></span>
+						<h:outputText value="#{msg.template_totalVagas}: " />
+						<h:outputText value="#{templateController.vaga.totalVagas}" styleClass="vagas" />
+						
+					</div>
+					
+				</h:form>
+			</h:panelGroup>
+		</div>
+			
+		<div class="rodape">
+			<div class="left_rodape">
+			</div>
+			
+			<div class="center_rodape">
+				<h:outputText value="#{msg.direitos}" />		
+			</div>
+		
+			<div class="right_rodape">
+			</div>
+		</div>
+	</div>
+
+	<p:dialog widgetVar="windowProcessando" modal="true" draggable="false"
+		resizable="false" closable="false" showHeader="false" styleClass="processando" />
+
+	<p:ajaxStatus onstart="windowProcessando.show();"
+		onsuccess="windowProcessando.hide();" />
+		
+</h:body>
+</html>

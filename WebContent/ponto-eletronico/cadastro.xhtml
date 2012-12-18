@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+
+	<ui:composition template="/template/templateApp.xhtml" >
+	 	
+		<ui:define name="titulo">#{msg.pontoEletronico_titulo}</ui:define>
+		<ui:define name="corpo">
+
+			<!-- titulo -->			
+			<h:panelGroup class="titulo_superior" >
+				<h:outputText value="#{msg.pontoEletronico_titulo} " />
+			</h:panelGroup>
+			
+				
+			<h:form id="formPontoEletronico">
+			
+				<br />
+				<span>
+					#{msg.pontoEletronico_funcionario}:
+					<b><h:outputText value="#{usuarioLogado.usuario.login.toUpperCase()}" /> </b>
+				</span>
+				
+				
+				<p:dataTable  value="#{pontoEletronicoController.dataModel}" 
+					id="pontoEletronicoDataModel"
+					var="pontoEletronico" paginator="true" rows="5" dynamic="true" lazy="true" 
+					style="margin-top: 10px; margin-botton: 5px;"  >
+			
+					<p:column headerText="#{msg.pontoEletronico_data}" >
+						<h:outputText value="#{pontoEletronico.dataEntrada}" >
+							<f:convertDateTime pattern="#{msg.horaPadrao}" timeZone="#{msg.timeZone}"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{msg.pontoEletronico_dataEntrada}">
+						<h:outputText value="#{pontoEletronico.dataEntrada}">
+							<f:convertDateTime pattern="HH:mm:ss" timeZone="#{msg.timeZone}"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{msg.pontoEletronico_dataSaidaAlmoco}">
+						<h:outputText value="#{pontoEletronico.dataSaidaAlmoco}">
+							<f:convertDateTime pattern="HH:mm:ss" timeZone="#{msg.timeZone}"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{msg.pontoEletronico_dataVoltaAlmoco}">
+						<h:outputText value="#{pontoEletronico.dataVoltaAlmoco}">
+							<f:convertDateTime pattern="HH:mm:ss" timeZone="#{msg.timeZone}"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{msg.pontoEletronico_dataSaida}">
+						<h:outputText value="#{pontoEletronico.dataSaida}">
+							<f:convertDateTime pattern="HH:mm:ss" timeZone="#{msg.timeZone}"/>
+						</h:outputText>
+					</p:column>
+					
+				</p:dataTable>
+				
+				<h:panelGroup>
+					<p:commandButton id="showDialogButton" 
+						value="#{msg.pontoEletronico_marcar}"  onclick="confirmarMarcacaoPonto.show()" 
+						tabindex="1" styleClass="botao" style="margin: 10px 0px 50px 0px; float: right !important;" />
+				</h:panelGroup>
+				
+					<p:confirmDialog id="confirmarDialog" widgetVar="confirmarMarcacaoPonto" 
+						message="#{msg.pontoEletronico_confirmarPonto}"  
+		                modal="true" showEffect="true" hideEffect="true" closable="false"  
+		                header="#{msg.confirmar}" draggable="false" severity="alert" >  
+						
+						<p:commandButton id="confirm" value="#{msg.sim}" update="messages" 
+							oncomplete="confirmarMarcacaoPonto.hide()"  
+	        	            action="#{pontoEletronicoController.marcarPontoEletronico}" ajax="pontoEletronicoDataModel" />  
+				        <p:commandButton id="decline" value="#{msg.nao}" onclick="confirmarMarcacaoPonto.hide()" 
+				        	type="button" />  
+						
+					</p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

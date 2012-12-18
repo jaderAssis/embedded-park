@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<ui:composition template="/template/templateApp.xhtml" >
+	
+		<ui:define name="corpo">
+			<h:form name="formLogin">
+				<h:panelGrid columns="2" styleClass="campos" >
+					<h:outputLabel value="#{msg.login_usuario}:" for="login" />
+					<p:inputText value="#{loginController.usuario.login}" id="login" tabindex="1"/>
+					
+					<h:outputLabel value="#{msg.login_senha}:" for="senha" />
+					<p:keyboard value="#{loginController.usuario.senha}" id="senha" password="true" tabindex="2" />
+				</h:panelGrid>
+				
+				<h:panelGroup>
+					<h:commandLink value="#{msg.login_botao_login}" 
+						action="#{loginController.efetuaLogin}" tabindex="3" 
+						onclick="windowLogin.show()"
+						oncomplete="windowLogin.hide()"
+						styleClass="botao" style="margin: 10px 0px 10px 117px !important" />
+				</h:panelGroup>
+
+			</h:form>
+
+			<p:dialog widgetVar="windowLogin" modal="true" draggable="false"
+				resizable="false" closable="false" showHeader="false" styleClass="cadeadoLogin" />
+				
+		</ui:define>
+	</ui:composition>
+</html>

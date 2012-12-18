@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+	<ui:composition template="/template/templateApp.xhtml" >
+
+		<ui:define name="titulo">Finalizar Locacao</ui:define>
+	
+		<ui:define name="corpo">
+			
+			<!-- titulo -->			
+			<h:panelGroup class="titulo_superior" >
+				<h:outputText value="Finalizar Locacao" />
+			</h:panelGroup>
+		
+			<h3>
+				<h:outputText value="Codigo do Cartao" />
+			</h3>
+			
+	 		<h:form prependId="false" id="formFinalizarLocacao" style="margin-top: -10px;" >
+	 			
+	 			<p:growl id="growl" sticky="true" />
+	 			
+				<s:validateForm validatorId="finalizarLocacaoValidator" />
+	 							
+				<h:outputText value="Carta: " for="cartao" />
+				<p:inputText tabindex="1" id="cartao" 
+					value="#{finalizarLocacaoController.cartao}" style="width: 180px; margin: 5px 5px 0px 13px;" />		
+				
+				<br />
+				<p:commandButton actionListener="#{finalizarLocacaoController.finalizarLocacao}" 
+					update="growl" value="Finalizar"  style="margin: 10px 0px 10px 0px;" tabindex="2"/>				
+					
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+</html>

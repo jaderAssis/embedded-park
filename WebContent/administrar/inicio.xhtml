@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+	<ui:composition template="/template/templateApp.xhtml" >
+		
+		<ui:define name="titulo">#{msg.adm_titulo}</ui:define>
+	
+		<ui:define name="corpo">
+
+			<!-- titulo -->			
+			<h:panelGroup class="titulo_superior" >
+				<h:outputText value="#{msg.adm_titulo}" />
+			</h:panelGroup>
+			
+			<h:form id="formAdministrar">
+		
+				<div class="textoInterno">
+					
+					<div onmouseover="colocarGrid(this)" onmouseout="tirarGrid(this)" class="topicoSemBorda">
+						<h:commandLink value="Locacao"
+							action="/locacao/index?faces-redirect=true"
+							styleClass="linkAdministrar" />
+						<br />	
+						<h:outputText  value="Locacoes de vaga" />
+					</div>		
+					
+					<div onmouseover="colocarGrid(this)" onmouseout="tirarGrid(this)" class="topicoSemBorda">
+						<h:commandLink value="#{msg.adm_cadastrarMensalista}"
+							action="/mensalista/cadastro?faces-redirect=true"
+							styleClass="linkAdministrar" />
+						<br />	
+						<h:outputText  value="Nesta area o administrador pode cadastrar novos mensalistas para o estacionamento" />
+					</div>		
+					
+					<div onmouseover="colocarGrid(this)" onmouseout="tirarGrid(this)" class="topicoSemBorda">
+						<h:commandLink value="Pagamento"
+							action="/pagamento/realizar?faces-redirect=true"
+							styleClass="linkAdministrar" />
+						<br />
+						<h:outputText  value="Pagamento para vagas em aberto no sistema" />
+					</div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

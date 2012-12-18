@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+	<ui:composition template="/template/templateApp.xhtml" >
+
+		<ui:define name="titulo">Iniciar Locacao</ui:define>
+	
+		<ui:define name="corpo">
+			
+			<!-- titulo -->			
+			<h:panelGroup class="titulo_superior" >
+				<h:outputText value="Iniciar Locacao" />
+			</h:panelGroup>
+			
+			<h3>
+				<h:outputText value="Veiculo" />
+			</h3>
+			
+	 		<h:form prependId="false" id="formCadastroLocacao" style="margin-top: -10px;" >
+				
+				<s:validateForm validatorId="iniciarLocacaoValidator" />
+									
+				<br />
+				<h:outputText value="Placa: " for="placa" />
+				<p:inputText tabindex="1" id="placa" 
+					value="#{iniciarLocacaoController.veiculo.placa}" style="width: 180px; margin: 5px 5px 0px 13px;" />
+			
+				<br />			
+				<h:outputText value="Modelo: " for="modelo" />
+				<p:inputText tabindex="2" id="modelo" 
+					value="#{iniciarLocacaoController.veiculo.modelo}" style="width: 180px; margin: 5px 5px 0px 5px;" />
+				
+				<br />
+				<h:outputText value="Cor: " for="cor" />
+				<p:inputText tabindex="3" id="cor" 
+					value="#{iniciarLocacaoController.veiculo.cor}" style="width: 180px; margin: 5px 5px 0px 22px;" />
+				
+				<br />	
+				<h:outputText value="Cartao: " for="idCartao" />	
+				<h:selectOneMenu value="#{iniciarLocacaoController.idCartao}" 
+					style="margin-left: 9px;" id="idCartao" tabindex="4" >
+					
+					 <f:selectItem itemValue="" itemLabel="#{msg.selecione}" /> 
+					 <f:selectItems value="#{iniciarLocacaoController.listAllCartoes}"  
+			             var="cartao"
+			             itemValue="#{cartao.id}"   
+			             itemLabel="#{cartao.descricao}" />  
+				</h:selectOneMenu>	
+				
+				<br />				
+				<p:commandButton action="#{iniciarLocacaoController.iniciarLocacao}" 
+					value="Cadastrar"  style="margin: 10px 0px 10px 0px;" tabindex="5"/>				
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

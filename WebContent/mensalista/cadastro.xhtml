@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+	<ui:composition template="/template/templateApp.xhtml" >
+
+		<ui:define name="titulo">#{msg.adm_titulo}</ui:define>
+	
+		<ui:define name="corpo">
+			
+	 	<style type="text/css">
+			.ui-state-hover {
+				color: #0FA0DD;
+			}
+			
+			.ui-wizard-step-title {
+				font-size: 15px;
+			}
+			
+			.cadastroMensalista {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			
+			.ui-wizard-nav-next {
+				margin-right: 250px;
+			}	
+			
+			#dataFimVigencia_input {
+				width: 183px;
+				margin-top: 5px;
+			}
+			
+	 	</style>
+			
+			
+			<h:form prependId="false" id="formCadastroMensalista" style="margin-top: -10px;" >
+											
+				<p:growl id="growl" sticky="true" /> 		
+				
+				<!-- validacao de tela -->
+				<s:validateForm validatorId="mensalistaValidador" />
+					
+				<p:tabView id="tabView" dynamic="true" cache="true" styleClass="cadastroMensalista" > 
+				  
+				  	<p:tab id="AbaDadosMensalista" title="Mensalista" >
+				    	
+						<h3>
+							<h:outputText value="Dados Mensalista" />
+						</h3>
+						
+						<h:panelGroup style="float: right; margin-top: -35px;" >
+							<h:outputText value="Tipo Pessoa: " for="tipoPessoa" />
+							<h:selectOneMenu value="#{cadastroMensalistaController.tipoPessoa}"
+								valueChangeListener="#{cadastroMensalistaController.defineTipoPessoa}" 
+								style="width: 50px; margin: 5px 15px 0px 5px;" id="tipoPessoa">
+								
+								<p:ajax event="change" update="panelDocumentos" />
+								
+								<f:selectItems value="#{cadastroMensalistaController.listTiposPessoas}"  
+						            var="pessoa"   
+						            itemValue="#{pessoa}"   
+						            itemLabel="#{pessoa.descricao}" />  
+							</h:selectOneMenu>
+						</h:panelGroup>
+						
+						<br />
+						
+						<h:outputText value="Nome: " for="nome" />
+						<p:inputText tabindex="1" id="nome" 
+							value="#{cadastroMensalistaController.mensalista.nome}" style="width: 480px;" />
+						
+						<br />
+						
+						<h:outputText value="Data de Nacimento: " for="dataNacimento"  />
+						<p:inputMask value="#{cadastroMensalistaController.mensalista.dataNacimento}"
+							mask="99/99/9999" tabindex="2" id="dataNacimento" 
+							style="width: 100px; margin-right: 10px;" >
+							<f:convertDateTime pattern="#{msg.horaPadrao}" timeZone="#{msg.timeZone}"/>
+						</p:inputMask>
+						
+						<h:outputText value="Data Fim Vigencia: " for="dataFimVigencia" />
+						<p:calendar value="#{cadastroMensalistaController.mensalista.dataFimVigencia}" 
+							style="width: 210px !important;" pattern="#{msg.horaPadrao}" 
+							effect="explode" locale="pt_BR" 
+							tabindex="3" id="dataFimVigencia" />
+						
+						<br />
+						
+						<h:panelGroup id="panelDocumentos">
+							<h:panelGroup rendered="#{cadastroMensalistaController.tipoPessoa.codigo eq 1}">
+								<h:outputText value="Rg: " for="rg" />
+								<p:inputMask id="rg" mask="99.999.999-9"
+									value="#{cadastroMensalistaController.rg}" tabindex="4" style="width: 150px; margin: 5px 5px 0px 5px;" />
+								
+								<h:outputText value="Cpf: " for="cpf" />
+								<p:inputMask id="cpf" mask="999.999.999-99" 
+									value="#{cadastroMensalistaController.cpf}" tabindex="5" style="width: 150px; margin: 5px 5px 0px 5px;" />
+							</h:panelGroup>
+	
+							<h:panelGroup rendered="#{cadastroMensalistaController.tipoPessoa.codigo eq 2}">
+								<h:outputText value="Cnpj: " for="cnpj" />
+								<p:inputMask id="cnpj" mask="99.999.999/9999-99" 
+									value="#{cadastroMensalistaController.cnpj}" tabindex="4" style="width: 150px; margin: 5px 5px 0px 5px;" />
+							</h:panelGroup>
+							
+							<br />							
+							<br />
+						</h:panelGroup>
+					</p:tab>
+						
+					<p:tab id="AbaEndereco" title="Endereco">
+					
+						<h3>
+							<h:outputText value="Endereco" />
+						</h3>
+					
+						
+						<h:outputText value="Tipo Endereco: " for="tipoEndereco" />
+						<h:selectOneMenu value="#{cadastroMensalistaController.mensalista.endereco.tipoEndereco}" 
+							style="width: 115px; margin: 5px 5px 0px 5px;" tabindex="6" id="tipoEndereco">
+							
+							 <f:selectItem itemValue="" itemLabel="#{msg.selecione}" for="tipoEndereco"/> 
+							 <f:selectItems value="#{cadastroMensalistaController.listTipoEndereco}"  
+					             var="tipoEndereco"   
+					             itemValue="#{tipoEndereco}"   
+					             itemLabel="#{tipoEndereco.descricao}" />  
+						</h:selectOneMenu>
+					
+						<br />	
+						
+						<h:outputText value="Descricao: " for="enderecoDescricao" />
+						<p:inputText value="#{cadastroMensalistaController.mensalista.endereco.descricao}" id="enderecoDescricao" 
+							style="width: 440px; margin: 5px 5px 0px 5px;" tabindex="7"/>
+						
+						<br />
+						<h:outputText value="Numero: " for="enderecoNumero"/>
+						<p:inputText value="#{cadastroMensalistaController.mensalista.endereco.numero}" id="enderecoNumero" 
+							style="width: 110px; margin: 5px 5px 0px 5px;" tabindex="8" />
+					
+						<h:outputText value="Complemento: " for="enderecoComplemento"/>
+						<p:inputText value="#{cadastroMensalistaController.mensalista.endereco.complemento}" id="enderecoComplemento" 
+							style="width: 237px; margin: 5px 5px 0px 5px;" tabindex="9" />								
+						
+						<br />	
+						<h:outputText value="UF: " for="idUf"/>
+						<h:selectOneMenu value="#{cadastroMensalistaController.idUf}" 
+							style="width: 115px; margin: 5px 5px 0px 5px;" id="idUf" tabindex="10">
+							 <f:selectItem itemValue="" itemLabel="#{msg.selecione}" /> 
+							  
+							 <f:selectItems value="#{cadastroMensalistaController.listUf}"  
+					             var="uf"
+					             itemValue="#{uf.id}"   
+					             itemLabel="#{uf.descricao}" />  
+					    </h:selectOneMenu>
+					    
+					    <h:outputText value="Cidade" for="cidade" style="margin: 5px 5px 0px 5px;"/>
+					    <p:inputText value="#{cadastroMensalistaController.mensalista.endereco.cidade}" 
+					    	id="cidade" tabindex="11" />
+					    
+					    <h:outputText value="Bairro" for="bairro" style="margin: 5px 5px 0px 5px;"/>
+					    <p:inputText value="#{cadastroMensalistaController.mensalista.endereco.bairro}" 
+					    	id="bairro" tabindex="12" />
+						
+						<h:outputText value="Cep" for="cep" style="margin: 5px 5px 0px 5px;"/>
+						<p:inputMask value="#{cadastroMensalistaController.mensalista.endereco.cep}" id="cep"
+							mask="99999-999" style="width: 125px; margin: 5px 15px 0px 5px;" tabindex="13" />
+						
+						<h3>
+							<h:outputText value="Contato" />
+						</h3>
+						
+						<h:outputText value="Email: " for="email" />
+						<p:inputText id="email" value="#{cadastroMensalistaController.mensalista.contato.email}" 
+							tabindex="14" style="width: 210px; margin: 5px 5px 0px 5px;" />
+
+						<br />
+						<h:outputText value="Telefone Residencial: " for="telResidencial" />
+						<p:inputMask value="#{cadastroMensalistaController.mensalista.contato.telefoneResidencial}" 
+							mask="(99) 9999-9999" id="telResidencial" 
+							style="width: 125px; margin: 5px 15px 0px 5px;" tabindex="15" />
+
+						<h:outputText value="Telefone Celular: " for="telCelular" />
+						<p:inputMask value="#{cadastroMensalistaController.mensalista.contato.telefoneCelular}" 
+							mask="(99) 99999-9999" label="telefone" id="telCelular" 
+							style="width: 125px; margin: 5px 15px 0px 5px;" tabindex="16" />
+
+						<br />
+						<h:outputText value="Telefone Comercial: " for="telComercial" />
+						<p:inputMask value="#{cadastroMensalistaController.mensalista.contato.telefoneComercial}" 
+							mask="(99) 9999-9999" id="telComercial" 
+							style="width: 135px; margin: 5px 5px 0px 5px;" tabindex="17" />
+
+						<br />
+						<br />
+						<h:outputText value="Informacao Adicional " for="infoAdicional" />
+						<br />
+						<p:inputTextarea value="#{cadastroMensalistaController.mensalista.contato.informacaoAdicional}" 
+							 style="width: 505px; margin-top: 5px;" tabindex="18" id="infoAdicional" />
+							 
+						<br />
+					</p:tab> 
+						
+					<p:tab id="AbaContrato" title="Contrato">
+					
+						<h3>
+							<h:outputText value="Contrato" />
+						</h3>
+					
+						<h:outputText value="Dia Vencimento Mensal: " for="vencMensal" />
+						<p:inputText id="vencMensal" style="margin: 5px 5px 0px 5px;"
+							value="#{cadastroMensalistaController.mensalista.contrato.diaVencimentoMensal}" tabindex="19" />
+						
+						<br />
+						<h:outputText value="Valor: " for="valor" />
+						<h:panelGroup style="margin-left: 10px;">
+							<h:outputText value="R$ " for="vencMensal" />
+							<p:inputText id="valor" style="margin: 5px 5px 0px 5px;"
+								value="#{cadastroMensalistaController.valorContrato}" tabindex="20" />
+						</h:panelGroup>
+						
+						
+						<h3>
+							<h:outputText value="Cartao" />
+						</h3>
+						
+						<h:outputText value="Cartao: " for="idCartao" />	
+						<h:selectOneMenu value="#{cadastroMensalistaController.idCartao}" 
+							style="margin-left: 5px;" id="idCartao" tabindex="21" >
+							
+							 <f:selectItem itemValue="" itemLabel="#{msg.selecione}" /> 
+							 <f:selectItems value="#{cadastroMensalistaController.listCartoesLiberados}"  
+					             var="cartao"
+					             itemValue="#{cartao.id}"   
+					             itemLabel="#{cartao.descricao}" />  
+						</h:selectOneMenu>
+						
+						<br />
+						<br />
+						<p:commandButton actionListener="#{cadastroMensalistaController.cadastrar}" 
+							value="Cadastrar" update="growl" style="margin: 10px 0px 10px 0px;" tabindex="22"/>
+					</p:tab>
+				</p:tabView>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

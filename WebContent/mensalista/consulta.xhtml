@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"	
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:s="http://jboss.org/seam/faces" >
+
+	<p:dialog id="consultaMensalista" header="Dados Mensalista" widgetVar="consultaMensalista" 
+					modal="true" showEffect="fold" height="500" width="600" >
+					  
+		<h:form prependId="false" id="formConsultaMensalista" style="margin-top: -10px;" >
+	
+			<h3>
+				<h:outputText value="Dados Mensalista" />
+			</h3>
+			
+			<h:panelGroup style="margin: 0px 5px 0px 5px;">
+				<h:outputText value="Nome: " />
+			</h:panelGroup>
+			<h:inputText value="#{cadastroMensalistaController.mensalista.nome.toUpperCase()}" 
+				id="nome" style="width: 480px;" disabled="true"  />
+		
+			<center>
+				
+				<h:outputText value="Data de Nacimento: " />
+				<h:panelGroup style="width: 75px; margin: 5px 5px 0px 5px;">
+					<h:outputText value="#{cadastroMensalistaController.mensalista.dataNacimento}" disabled="true">
+						<f:convertDateTime pattern="#{msg.horaPadrao}" timeZone="#{msg.timeZone}"/>
+					</h:outputText>
+				</h:panelGroup>
+				
+				<h:outputText value="Data Fim Vigencia: " />
+				<h:panelGroup style="width: 75px; margin: 5px 5px 0px 5px;">
+					<h:outputText value="#{cadastroMensalistaController.mensalista.dataFimVigencia}" disabled="true">	
+						<f:convertDateTime pattern="#{msg.horaPadrao}" timeZone="#{msg.timeZone}"/>
+					</h:outputText>
+				</h:panelGroup>
+				
+			</center>
+		
+			<h3>
+				<h:outputText value="Endereco" />
+			</h3>
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Descricao: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.endereco.tipoEndereco}  #{cadastroMensalistaController.mensalista.endereco.descricao}" 
+					style="width: 460px; margin-left: 5px;" disabled="true" />
+				
+			</h:panelGrid>
+				
+			<h:panelGrid columns="2">
+				<h:outputText value="Complemento: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.endereco.complemento}" 
+					style="width: 437px; margin-left: 5px;" disabled="true" />
+			</h:panelGrid>
+		
+			<center>
+				<h:panelGroup>
+					<h:outputText value="Numero: " />
+				</h:panelGroup>
+				<h:inputText value="#{cadastroMensalistaController.mensalista.endereco.numero}" 
+					style="margin-left: 10px; margin-right: 10px; width: 50px;" disabled="true" />
+				
+				<h:panelGroup>
+					<h:outputText value="UF: " />
+				</h:panelGroup>
+				<h:inputText value="#{cadastroMensalistaController.mensalista.endereco.uf}" 
+					style="margin-left: 10px; margin-right: 10px; width: 50px;" disabled="true" />
+			</center>
+		
+			<h3>
+				<h:outputText value="Contato" />
+			</h3>
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Email: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.contato.email}" 
+						style="width: 480px; margin-left: 5px;" disabled="true" />
+			</h:panelGrid>	
+		
+			<h:panelGrid columns="2">
+				<h:outputText value="Telefone Residencial: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.contato.telefoneResidencial}" 
+					style="width: 130px;" disabled="true" />
+
+				<h:outputText value="Telefone Celular: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.contato.telefoneCelular}" 
+					style="width: 130px;" disabled="true" />
+
+				<h:outputText value="Telefone Comercial: " />
+				<h:inputText value="#{cadastroMensalistaController.mensalista.contato.telefoneComercial}" 
+					style="width: 130px;" disabled="true" />
+				
+			</h:panelGrid>
+			
+			<br />
+		
+			<h:outputText value="Informacao Adicional " />
+			<p:inputTextarea value="#{cadastroMensalistaController.mensalista.contato.informacaoAdicional}" 
+				 style="width: 530px; margin-top: 5px;" disabled="true"/>
+				
+			<h3>
+				<h:outputText value="Contrato" />
+			</h3>
+			
+			<h:outputText value="Dia Vencimento Mensal: " />
+			<h:outputText value="#{cadastroMensalistaController.mensalista.contrato.diaVencimentoMensal}"  />
+		
+			<br />
+			<h:outputText value="Valor Mensal: " />
+			<h:inputText value="#{cadastroMensalistaController.mensalista.contrato.valor}" 
+				style="width: 100px; margin: 3px 10px 10px 5px;" disabled="true"/>
+			
+			<br />
+			<p:commandButton id="fechar" value="Fechar" style="margin: 10px 0px 5px 390px;" 
+				onclick="consultaMensalista.hide();" type="button" />  
+			
+			
+				
+		</h:form>
+	</p:dialog>
+</html>
